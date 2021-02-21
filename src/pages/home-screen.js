@@ -30,7 +30,7 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({movies: customData.jsonData})
+        this.setState({ movies: customData.jsonData })
     }
 
     handleLikeButton(index) {
@@ -78,135 +78,132 @@ export default class Home extends React.Component {
                     </View>
 
                     {/* Content Header , contains extend button */}
-                    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', style: "100%" }}>
-                        {this.state.movies.length > 0 ? (
-                            <View>
-                                {this.state.movies.map((movie, index) => (
-                                    // Warning: Each child in a list should have a unique "key" prop.
-                                    // We add the key props due to the issue mentioned in the top line
-                                    <TouchableOpacity
-                                        key={movie.id}
-                                        style={
-                                            [
-                                                styles.margin10,
-                                                this.state.extend ?
-                                                    {
-                                                        width: Dimensions.get("screen").width / 2 - 20, height: 250
-                                                    } : {
-                                                        width: Dimensions.get("screen").width - 20
+                    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+
+                        {this.state.movies.map((movie, index) => (
+                            // Warning: Each child in a list should have a unique "key" prop.
+                            // We add the key props due to the issue mentioned in the top line
+                            <TouchableOpacity
+                                key={movie.id}
+                                style={
+                                    [
+                                        styles.margin10,
+                                        this.state.extend ?
+                                            {
+                                                width: Dimensions.get("screen").width / 2 - 20, height: 250
+                                            } : {
+                                                width: Dimensions.get("screen").width - 20
+                                            }
+                                    ]
+                                }
+                                onPress={() => {
+                                    this.props.navigation.navigate('Movie Detail', { movie })
+                                }}>
+                                {!this.state.extend ?
+                                    (
+                                        // List View
+                                        <View style={{ flexDirection: "row" }}>
+                                            <View>
+                                                <Image
+                                                    style={styles.movieCover}
+                                                    source={{ uri: movie.img }}
+                                                />
+                                                <TouchableOpacity
+                                                    style={styles.likeButton}
+                                                    onPress={() => {
+                                                        this.handleLikeButton(index)
+                                                    }}>
+                                                    {this.state.movies[index].liked ?
+                                                        (
+                                                            <HomeLikeButtonRed width={20} height={20} />
+                                                        ) : (
+                                                            <HomeLikeButtonGray width={20} height={20} />
+                                                        )
                                                     }
-                                            ]
-                                        }
-                                        onPress={() => {
-                                            this.props.navigation.navigate('Movie Detail', { movie })
-                                        }}>
-                                        {!this.state.extend ?
-                                            (
-                                                // List View
-                                                <View style={{ flexDirection: "row" }}>
-                                                    <View>
-                                                        <Image
-                                                            style={styles.movieCover}
-                                                            source={{ uri: movie.img }}
-                                                        />
-                                                        <TouchableOpacity
-                                                            style={styles.likeButton}
-                                                            onPress={() => {
-                                                                this.handleLikeButton(index)
-                                                            }}>
-                                                            {this.state.movies[index].liked ?
-                                                                (
-                                                                    <HomeLikeButtonRed width={20} height={20} />
-                                                                ) : (
-                                                                    <HomeLikeButtonGray width={20} height={20} />
-                                                                )
-                                                            }
 
-                                                        </TouchableOpacity>
-                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
 
-                                                    {/* Text of Card */}
-                                                    <View>
-                                                        <View
-                                                            style={
-                                                                [
-                                                                    styles.flex,
-                                                                    { marginLeft: 19 }
-                                                                ]
-                                                            }
-                                                        >
-                                                            <Text style={styles.ListViewContentheader}>
-                                                                {movie.name}
-                                                            </Text>
-                                                            <Text style={styles.ContentText}>
-                                                                {movie.year} | {movie.langCode}
-                                                            </Text>
-                                                            <Text style={styles.ContentText}>
-                                                                {movie.type}
-                                                            </Text>
-                                                        </View>
-                                                        {/* imdb and val , val is public etc. */}
-
-                                                        <View
-                                                            style={{ marginLeft: 19 }}
-                                                        >
-                                                            <Text style={styles.ContentText}>
-                                                                {movie.imdb}
-                                                            </Text>
-                                                            <Text style={styles.ContentText}>
-                                                                {movie.val}
-                                                            </Text>
-                                                        </View>
-                                                    </View>
+                                            {/* Text of Card */}
+                                            <View>
+                                                <View
+                                                    style={
+                                                        [
+                                                            styles.flex,
+                                                            { marginLeft: 19 }
+                                                        ]
+                                                    }
+                                                >
+                                                    <Text style={styles.ListViewContentheader}>
+                                                        {movie.name}
+                                                    </Text>
+                                                    <Text style={styles.ContentText}>
+                                                        {movie.year} | {movie.langCode}
+                                                    </Text>
+                                                    <Text style={styles.ContentText}>
+                                                        {movie.type}
+                                                    </Text>
                                                 </View>
-                                            ) : (
-                                                // Grid View 
-                                                <View style={styles.gridViewBox}>
-                                                    <View style={{ flex: 1, width: "100%", justifyContent: "flex-start" }}>
+                                                {/* imdb and val , val is public etc. */}
 
-                                                        <Image
-                                                            style={[styles.movieCover, { width: "100%" }]}
-                                                            source={{ uri: movie.img }}
-                                                        />
-
-                                                        <TouchableOpacity
-                                                            style={styles.likeButton}
-                                                            onPress={() => {
-                                                                this.handleLikeButton(index)
-                                                            }}>
-                                                            {this.state.movies[index].liked ?
-                                                                (
-                                                                    <HomeLikeButtonRed width={20} height={20} />
-                                                                ) : (
-                                                                    <HomeLikeButtonGray width={20} height={20} />
-                                                                )
-                                                            }
-                                                        </TouchableOpacity>
-
-                                                        {/* Grid View Name View*/}
-                                                        <View style={styles.gridViewTextContainer}>
-                                                            <Text style={styles.GridViewContentName}>
-                                                                {movie.name}
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-
-                                                    {/* Grid View under image View */}
-                                                    <View style={styles.gridViewTextContainer}>
-                                                        <Text style={styles.ContentText}>
-                                                            {movie.year} | {movie.langCode}
-                                                        </Text>
-                                                        <Text style={styles.ContentText}>
-                                                            {movie.type}
-                                                        </Text>
-                                                    </View>
+                                                <View
+                                                    style={{ marginLeft: 19 }}
+                                                >
+                                                    <Text style={styles.ContentText}>
+                                                        {movie.imdb}
+                                                    </Text>
+                                                    <Text style={styles.ContentText}>
+                                                        {movie.val}
+                                                    </Text>
                                                 </View>
-                                            )
-                                        }
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        ) : (null)}
+                                            </View>
+                                        </View>
+                                    ) : (
+                                        // Grid View 
+                                        <View style={styles.gridViewBox}>
+                                            <View style={{ flex: 1, width: "100%", justifyContent: "flex-start" }}>
+
+                                                <Image
+                                                    style={[styles.movieCover, { width: "100%" }]}
+                                                    source={{ uri: movie.img }}
+                                                />
+
+                                                <TouchableOpacity
+                                                    style={styles.likeButton}
+                                                    onPress={() => {
+                                                        this.handleLikeButton(index)
+                                                    }}>
+                                                    {this.state.movies[index].liked ?
+                                                        (
+                                                            <HomeLikeButtonRed width={20} height={20} />
+                                                        ) : (
+                                                            <HomeLikeButtonGray width={20} height={20} />
+                                                        )
+                                                    }
+                                                </TouchableOpacity>
+
+                                                {/* Grid View Name View*/}
+                                                <View style={styles.gridViewTextContainer}>
+                                                    <Text style={styles.GridViewContentName}>
+                                                        {movie.name}
+                                                    </Text>
+                                                </View>
+                                            </View>
+
+                                            {/* Grid View under image View */}
+                                            <View style={styles.gridViewTextContainer}>
+                                                <Text style={styles.ContentText}>
+                                                    {movie.year} | {movie.langCode}
+                                                </Text>
+                                                <Text style={styles.ContentText}>
+                                                    {movie.type}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    )
+                                }
+                            </TouchableOpacity>
+                        ))}
 
                     </View>
                 </ScrollView>
